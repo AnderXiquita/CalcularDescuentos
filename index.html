@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descuentos</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        html{
+            font-size: 62.5%;
+            font-family: 'Space Mono', monospace;
+        }
+
+        body {
+            background: hsla(205, 46%, 10%, 1);
+            background: linear-gradient(90deg, hsla(205, 46%, 10%, 1) 0%, hsla(191, 28%, 23%, 1) 50%, hsla(207, 41%, 27%, 1) 100%);
+            background: -moz-linear-gradient(90deg, hsla(205, 46%, 10%, 1) 0%, hsla(191, 28%, 23%, 1) 50%, hsla(207, 41%, 27%, 1) 100%);
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#0E1C26", endColorstr="#2A454B", GradientType=1 );
+            text-align: center;
+            position: relative;
+        }
+
+        .inactive {
+            display: none;
+            transition: all 0.8s;
+        }
+
+        .filter {
+            filter: blur(5px);
+            transition: all 1s;
+        }
+
+        .tach {
+            text-decoration: line-through;
+        }
+
+        .porc {
+            color: rgba(255, 0, 0, 0.459);
+            padding: 5px 5px;
+            border-radius: 5px;
+
+            background-color: rgba(180, 180, 180, 0.452);
+        }
+
+        .title {
+            margin-top: 30px;
+            color: antiquewhite;
+            text-transform: uppercase;
+            font-size: 3.5rem;
+            font-weight: 400;
+        }
+
+        .volver {
+            display: inline-block;
+            margin-top: 10px;
+            text-decoration: none;
+            font-size: 1.3rem;
+            background-color: transparent;
+            border-radius: 50px;
+            border: 1px solid antiquewhite;
+            color: antiquewhite;
+            padding: 10px 35px;
+            transition: all 0.3s;
+        }
+
+        .volver:hover {
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+
+        .volver:focus {
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+
+        .compra_container {
+            min-width: 295px;
+            padding: 20px;
+            margin: 0 auto;
+            margin-top: 30px;
+            margin-bottom: 35px;
+            width: 55%;
+            height: auto;
+            
+            
+            background-color: rgba(255, 255, 255, 0.486);
+            border-radius: 10px;
+            color: #333;
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+        }
+
+        @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+            .compra_container {
+                -webkit-backdrop-filter: blur(10px);
+                backdrop-filter: blur(10px);
+                background-color: rgba(255, 255, 255, 0.041);  
+            }
+        }
+
+        .compra_info {
+            width: 100%;
+            height: auto;
+
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .compra_infoText {
+            width: 50%;
+            height: auto;
+            padding: 10px;
+
+            text-align: left;
+        }
+
+        .compra_infoText h2 {
+            color: antiquewhite;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .compra_infoText p {
+            color: antiquewhite;
+            font-size: 1.3rem;
+        }
+
+        .compra_infoImg {
+            width: 50%;
+            min-width: 265px;
+            height: 100%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .compra_infoImg img {
+            width: 77%;
+        }
+
+        /*
+        Imputs container
+        */
+
+        .imputs_container {
+            margin-top: 50px;
+            width: 100%;
+            height: auto;
+
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        label input {
+            border-radius: 50px;
+            width: 140px;
+            padding: 5px 10px;
+            border: 1px solid antiquewhite;
+            background-color: transparent;
+            color: antiquewhite;
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        label input:focus {
+            outline: none;
+        }
+
+        span {
+            color: antiquewhite;
+            font-size: 1.3rem;
+        }
+
+        .buttons_container {
+            margin-top: 20px;
+        }
+
+        .buttons_container button {
+            border-radius: 50px;
+            padding: 6px 17px;
+            margin-left: 10px;
+            background-color: transparent;
+            border: 1px solid antiquewhite;
+            color: antiquewhite;
+            cursor: pointer;
+        }
+
+        .buttons_container button:hover {
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+
+        .buttons_container button:focus {
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+
+        .Total {
+            margin-top: 30px;
+            color: antiquewhite;
+            font-size: 1.5rem;
+        }
+
+        /* Cupon */
+        .cupon_container {
+            position: absolute;
+            top: calc(70% -  150px);
+            left: calc(50% - (30% / 2));
+
+            width: 30%;
+            min-width: 270px;
+            height: 300px;
+            border-radius: 15px;
+
+            backdrop-filter: blur(5px);
+            background-color: rgba(65, 65, 65, 0.397);
+            color: #2c2c2c;
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+        }
+
+        .cupon_info {
+            height: auto;
+            width: max-content;
+        }
+
+        .cupon_info button {
+            border-radius: 50px;
+            padding: 6px 17px;
+            margin-top: 10px;
+            margin-left: 10px;
+            background-color: transparent;
+            border: 1px solid antiquewhite;
+            color: antiquewhite;
+            cursor: pointer;
+        }
+
+        .cupon_info p {
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-size: 1.4rem;
+        }
+
+        .cupon_info button:hover {
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+
+        .cupon_info button:focus {
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+
+        .cupon-flex {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .resultado_cupon {
+            margin: 20px auto;
+        }
+
+        .resultado_cupon p {
+            font-weight: 700;
+            font-size: 1.6rem;
+        }
+
+        .resultado_cupon h1 {
+            font-size: 3rem;
+        }
+
+        @media (max-width: 1053px) {
+            .compra_infoText {
+                width: 90%;
+                text-align: justify;
+            }
+
+            .compra_infoImg {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 903px) {
+            .cupon_container {
+                top: calc(75% -  150px);
+                left: calc(50% - 135px);
+            }
+        }
+
+        @media (max-width: 696px) { 
+            .buttons_container button:last-child {
+                margin-top: 5px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .title {
+                font-size: 2.5rem;
+            }
+
+            .compra_container {
+                padding: 10px;
+            }
+
+            .compra_infoText {
+                padding: 5px;
+                width: 100%;
+            }
+
+            .compra_infoText h2 {
+                font-size: 1.6rem;
+            }
+
+            .compra_infoText p {
+                font-size: 1.2rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <main class="body">
+        <h1 class="title">Calculando Descuentos con JavaScript</h1>
+        <a href="" class="volver">Volver</a>
+
+        <div class="compra_container">
+            <div class="compra_info">
+                <div class="compra_infoText">
+                    <h2>Iphone 12 pro</h2>
+                    <p>El iPhone 12 es el último y más avanzado smartphone de Apple. Con su impresionante pantalla OLED de 6.1 pulgadas, cámara trasera de 12 MP y procesador A14 Bionic, disfrutarás de una experiencia de usuario rápida y fluida. Además, su diseño elegante y resistente al agua lo hace ideal para llevar contigo a todas partes. ¡No te pierdas la oportunidad de tener el iPhone 12 en tus manos! ¡Compra ahora!</p>
+                </div>
+                <div class="compra_infoImg">
+                    <img src="./img/iphone.png" alt="">
+                </div>
+            </div>
+
+            <div class="imputs_container">
+                <label for="precio">
+                    <span>Precio: </span>
+                    <input type="number" id="precio" placeholder="Precio"/>
+                </label>
+                <label for="descuento">
+                    <span>Descuento(%):</span>
+                    <input type="number" id="descuento" placeholder="Descuento"/>
+                </label>
+            </div>
+
+            <div class="buttons_container">
+                <button class="calc">Calcular</button>
+                <button class="clear">Limpiar</button>
+                <button class="cupon">Canjear cupon</button>
+            </div>
+
+            <p class="Total"></p>
+        </div>
+    </main>
+
+    <div class="cupon_container inactive">
+        <div class="cupon-flex">
+            <div class="cupon_info">
+                <p class="ms1_precioActual"></p>
+                <label for="descuento">
+                    <span>Codigo:</span>
+                    <input type="text" id="codigo" placeholder="Codigo"/>
+                </label><br>
+                <div class="resultado_cupon">
+                    <p class="ms1_cupon"></p>
+                    <h1 class="ms2_cupon"></h1>
+                </div>
+                <button class="canjear-cupon">Canjear</button>
+                <button class="cerrar-cupon">Cerrar</button>
+            </div>
+        </div>
+    </div>
+    <script src="./PorcentajesYDescuentos.js"></script>
+</body>
+</html>
